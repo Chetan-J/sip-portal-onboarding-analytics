@@ -1,0 +1,478 @@
+<title>866 Students, 20 Questions</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#f4f5f6; --surface:#ffffff; --ink:#12161a; --ink2:#4a5560; --ink3:#6d7883;
+  --rule:#dee2e6; --rule2:#eaedf0; --accent:#2a78d6; --accent-soft:rgba(42,120,214,.10);
+  --muted:#b6bec6; --flag:#c8362f; --grey:#d3d8dd;
+  --shadow:0 1px 2px rgba(16,24,32,.05);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#131619; --surface:#1a1e22; --ink:#eef1f3; --ink2:#a4aeb7; --ink3:#79838c;
+  --rule:#2a3036; --rule2:#22272c; --accent:#3987e5; --accent-soft:rgba(57,135,229,.16);
+  --muted:#4d565e; --flag:#e66767; --grey:#333a41;
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+}}
+:root[data-theme="dark"]{
+  --bg:#131619; --surface:#1a1e22; --ink:#eef1f3; --ink2:#a4aeb7; --ink3:#79838c;
+  --rule:#2a3036; --rule2:#22272c; --accent:#3987e5; --accent-soft:rgba(57,135,229,.16);
+  --muted:#4d565e; --flag:#e66767; --grey:#333a41;
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);
+  font:400 16px/1.6 "Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums;}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px 100px}
+p{margin:0 0 .85em;max-width:66ch}
+
+/* ---- masthead ---- */
+header{padding:64px 0 34px;border-bottom:1px solid var(--rule)}
+.kicker{font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:20px}
+h1{font:400 clamp(34px,5.6vw,52px)/1.1 "Newsreader",Georgia,serif;margin:0 0 18px;letter-spacing:-.015em;text-wrap:balance}
+.standfirst{font:400 19px/1.55 "Newsreader",Georgia,serif;color:var(--ink2);max-width:60ch;margin:0}
+.facts{display:flex;flex-wrap:wrap;gap:28px;margin-top:30px;padding-top:24px;border-top:1px solid var(--rule2)}
+.fact{display:flex;flex-direction:column;gap:3px}
+.fact b{font:500 22px/1 "IBM Plex Mono",monospace;color:var(--ink)}
+.fact span{font:400 11px/1.3 "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+
+/* ---- how to read ---- */
+.howto{margin:32px 0 0;padding:20px 22px;background:var(--surface);border:1px solid var(--rule);border-radius:6px;box-shadow:var(--shadow)}
+.howto h4{font:600 12px/1 "IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin:0 0 12px}
+.howto p{font-size:14.5px;color:var(--ink2);margin:0 0 .6em}
+.howto p:last-child{margin:0}
+
+/* ---- toc ---- */
+nav.toc{margin:34px 0 0;padding:20px 22px;border:1px solid var(--rule);border-radius:6px;background:var(--surface);box-shadow:var(--shadow)}
+nav.toc h4{font:600 12px/1 "IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin:0 0 14px}
+.toc-grp{display:flex;gap:8px;align-items:baseline;margin-bottom:9px;flex-wrap:wrap}
+.toc-grp:last-child{margin:0}
+.toc-grp>b{font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);width:78px;flex:none}
+.toc a{font:500 12px/1 "IBM Plex Mono",monospace;color:var(--accent);text-decoration:none;
+  padding:5px 8px;border:1px solid var(--rule);border-radius:4px;background:var(--bg)}
+.toc a:hover{background:var(--accent-soft);border-color:var(--accent)}
+.toc a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* ---- section heads ---- */
+h2.sec{margin:72px 0 34px;padding-top:30px;border-top:2px solid var(--ink);
+  font:400 32px/1.15 "Newsreader",Georgia,serif;letter-spacing:-.01em;display:flex;flex-direction:column;gap:9px}
+.sec-k{font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h2.sec em{font:italic 400 16px/1.5 "Newsreader",Georgia,serif;color:var(--ink2);max-width:58ch;margin-top:4px}
+
+/* ---- question block ---- */
+.q{padding:30px 0 34px;border-bottom:1px solid var(--rule2)}
+.eyebrow{display:flex;align-items:center;gap:11px;margin-bottom:11px}
+.qid{font:500 12px/1 "IBM Plex Mono",monospace;letter-spacing:.06em;color:var(--surface);
+  background:var(--accent);padding:5px 8px;border-radius:3px}
+.meta{font:400 11px/1 "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+.q h3{font:400 23px/1.32 "Newsreader",Georgia,serif;margin:0 0 10px;letter-spacing:-.005em;max-width:60ch;text-wrap:balance}
+.helper{font:italic 400 14.5px/1.5 "Newsreader",Georgia,serif;color:var(--ink3);max-width:60ch;margin:0 0 4px}
+.shows{margin:18px 0 20px;padding-left:15px;border-left:2px solid var(--accent)}
+.shows-k{display:block;font:500 10.5px/1 "IBM Plex Mono",monospace;letter-spacing:.11em;text-transform:uppercase;color:var(--accent);margin-bottom:7px}
+.shows p{margin:0;font-size:14.5px;color:var(--ink2)}
+.says{margin-top:20px}
+.says p{margin:0;font-size:15.5px;color:var(--ink)}
+.says b{font-weight:600}
+.callout{margin:16px 0 0;padding:13px 16px;background:var(--accent-soft);border-radius:5px;
+  font-size:14px;line-height:1.55;color:var(--ink2);max-width:66ch}
+.callout b{color:var(--ink);font-weight:600}
+
+/* ---- bars ---- */
+.chart{margin:0;display:flex;flex-direction:column;gap:13px}
+.scale-note{font:400 11px/1 "IBM Plex Mono",monospace;letter-spacing:.05em;color:var(--ink3);margin-bottom:2px}
+.row{display:flex;flex-direction:column;gap:5px}
+.row-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.lab{font-size:14.5px;color:var(--ink);line-height:1.35}
+.val{font:400 13px/1 "IBM Plex Mono",monospace;white-space:nowrap;flex:none}
+.val b{font-weight:500;color:var(--ink)}
+.val em{font-style:normal;color:var(--ink3);margin-left:7px}
+.track{height:9px;border-radius:5px;background:var(--rule2);position:relative;overflow:hidden;
+  background-image:linear-gradient(90deg,transparent 0 calc(25% - 1px),var(--rule) calc(25% - 1px) 25%,transparent 25%);
+  background-size:25% 100%}
+.fill{display:block;height:100%;background:var(--accent);border-radius:5px}
+.fill.muted{background:var(--muted)}
+
+/* ---- days columns (A2) ---- */
+.sub-h{font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin:26px 0 14px}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;height:132px}
+.day{display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+.day-bar{width:100%;flex:1;display:flex;align-items:flex-end}
+.day-bar i{display:block;width:100%;background:var(--accent);border-radius:3px 3px 0 0;min-height:2px}
+.day-bar i.flag{background:var(--flag)}
+.day-n{font:500 12px/1 "IBM Plex Mono",monospace;color:var(--ink)}
+.day-k{font:400 12px/1 "IBM Plex Mono",monospace;color:var(--ink3)}
+.days-x{font:400 11px/1 "IBM Plex Mono",monospace;color:var(--ink3);margin-top:9px;text-align:center}
+
+/* ---- composition bar (B2/B4) ---- */
+.comp{display:flex;flex-direction:column;gap:11px}
+.comp-bar{display:flex;height:38px;border-radius:5px;overflow:hidden;gap:2px}
+.comp-bar i{display:flex;align-items:center;justify-content:center;min-width:2px;overflow:hidden}
+.comp-bar i span{font:500 12px/1 "IBM Plex Mono",monospace;color:#fff;white-space:nowrap;padding:0 8px}
+.c-acc{background:var(--accent)} .c-mute{background:var(--muted)}
+.c-flag{background:var(--flag)} .c-grey{background:var(--grey)}
+.c-mute span,.c-grey span{color:var(--ink)!important}
+.comp-key{display:flex;flex-wrap:wrap;gap:16px;font:400 12px/1 "IBM Plex Mono",monospace;color:var(--ink3)}
+.comp-key span{display:flex;align-items:center;gap:6px}
+.comp-key i{width:10px;height:10px;border-radius:2px;flex:none}
+.k-acc{background:var(--accent)} .k-mute{background:var(--muted)}
+.k-flag{background:var(--flag)} .k-grey{background:var(--grey)}
+
+/* ---- mini list ---- */
+.mini{margin-top:22px;padding:15px 17px;border:1px solid var(--rule);border-radius:5px;background:var(--surface)}
+.mini-h{font:500 10.5px/1 "IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:11px}
+.mini-rows{display:flex;flex-direction:column;gap:7px}
+.mini-r{display:flex;justify-content:space-between;gap:16px;font-size:13.5px;color:var(--ink2);
+  padding-bottom:7px;border-bottom:1px solid var(--rule2)}
+.mini-r:last-child{border:0;padding:0}
+.mini-r b{font:500 13px/1.4 "IBM Plex Mono",monospace;color:var(--ink);flex:none}
+
+footer{margin-top:70px;padding-top:26px;border-top:1px solid var(--rule);font-size:13.5px;color:var(--ink3)}
+footer p{max-width:66ch}
+footer code{font:400 12.5px/1 "IBM Plex Mono",monospace;background:var(--rule2);padding:2px 5px;border-radius:3px;color:var(--ink2)}
+@media (max-width:620px){
+  .facts{gap:20px} h2.sec{font-size:26px} .q h3{font-size:20px}
+  .days{height:110px;gap:4px} .day-n{font-size:10px} .comp-bar i span{font-size:10px;padding:0 4px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style><div class="wrap">
+<header>
+  <div class="kicker">SIP onboarding &middot; form v1 &middot; 3&ndash;8 September 2026</div>
+  <h1>866 students, 20 questions</h1>
+  <p class="standfirst">A question-by-question read of the SIP onboarding form, in the order students answered it &mdash; A1 through C8. Every figure below comes from the 866 submissions in the live database.</p>
+  <div class="facts">
+    <div class="fact"><b>866</b><span>submissions</span></div>
+    <div class="fact"><b>20</b><span>questions</span></div>
+    <div class="fact"><b>100%</b><span>completion of required items</span></div>
+    <div class="fact"><b>917</b><span>registered users</span></div>
+  </div>
+</header>
+
+<div class="howto">
+  <h4>How to read every chart here</h4>
+  <p>Bars are drawn on one shared scale &mdash; <b>percentage of all 866 students</b> &mdash; so a bar in section C is directly comparable with one in section A. The faint vertical lines mark 25%, 50% and 75%. Each bar is labelled with the student count first and the percentage second.</p>
+  <p>Where a question is a <b>scale</b> (A4, A6, B6, C5, C6, C8) the options stay in the form's own order rather than being sorted by size, because sorting a scale makes it unreadable. Options that sit outside the scale &mdash; <em>Other</em>, <em>Not sure</em>, <em>It varies</em> &mdash; are drawn in grey and pushed to the end. On multi-select questions students could tick several answers, so those bars deliberately do not add to 100%.</p>
+</div>
+
+<nav class="toc">
+  <h4>Contents</h4>
+  <div class="toc-grp"><b>A &middot; Time</b><a href="#A1">A1</a><a href="#A2">A2</a><a href="#A3">A3</a><a href="#A4">A4</a><a href="#A5">A5</a><a href="#A6">A6</a></div>
+  <div class="toc-grp"><b>B &middot; Work</b><a href="#B1">B1</a><a href="#B2">B2</a><a href="#B3">B3</a><a href="#B4">B4</a><a href="#B5">B5</a><a href="#B6">B6</a></div>
+  <div class="toc-grp"><b>C &middot; Style</b><a href="#C1">C1</a><a href="#C2">C2</a><a href="#C3">C3</a><a href="#C4">C4</a><a href="#C5">C5</a><a href="#C6">C6</a><a href="#C7">C7</a><a href="#C8">C8</a></div>
+</nav>
+<h2 class="sec" id="A"><span class="sec-k">Section A</span>Your time<em>&ldquo;Most student teams do not fail because of personality. They fail because five people could never find a time to meet.&rdquo;</em></h2>
+<section class="q" id="A1">
+  <div class="eyebrow"><span class="qid">A1</span><span class="meta">single choice &middot; required</span></div>
+  <h3>Where do you stay during the semester?</h3>
+  
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>Each bar is one housing option, and the length is the share of all 866 students who picked it. The four bars add up to 100% because each student chose exactly one.</p></div>
+  <div class="chart">
+<div class="row"><div class="row-head"><span class="lab">Home, I commute daily</span><span class="val"><b>454</b><em>52.4%</em></span></div><div class="track"><i class="fill" style="width:52.4%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">College hostel</span><span class="val"><b>224</b><em>25.9%</em></span></div><div class="track"><i class="fill" style="width:25.9%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">PG or rented accommodation near campus</span><span class="val"><b>155</b><em>17.9%</em></span></div><div class="track"><i class="fill" style="width:17.9%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Other</span><span class="val"><b>33</b><em>3.8%</em></span></div><div class="track"><i class="fill muted" style="width:3.8%"></i></div></div>
+</div>
+  <div class="says"><p>Just over half the cohort lives at home and commutes in. That matters more than it looks: a commuter's day ends when the last bus goes, so evening meetings on campus are far easier to schedule for the quarter who live in hostel than for the half who travel.</p></div>
+</section>
+<section class="q" id="A2">
+  <div class="eyebrow"><span class="qid">A2</span><span class="meta">availability grid &middot; required</span></div>
+  <h3>Tick every block in which you are reliably free most weeks. Not &quot;could free up if needed&quot;, but actually free.</h3>
+  <p class="helper">Be honest here. Ticking extra boxes does not help you. It puts you in a team that schedules meetings you cannot attend.</p><div class="callout"><b>Read with care.</b> 226 students ticked exactly 7 blocks, and 209 of those ticked one block on each of the seven days - a shape that would occur by chance in about 1% of answers. They answered with a habit ("I'm generally free evenings") rather than a schedule, so their availability is probably understated.</div>
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>Two views of the same grid. The top bars show what share of students are ever free in each time-of-day block. The lower columns count students by how many <em>days</em> a week they are free at all - so a student free on Monday and Thursday only sits in column 2.</p></div>
+  <div class="chart">
+<div class="row"><div class="row-head"><span class="lab">Early morning</span><span class="val"><b>229</b><em>26.4%</em></span></div><div class="track"><i class="fill" style="width:26.4%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Weekend morning</span><span class="val"><b>313</b><em>36.1%</em></span></div><div class="track"><i class="fill" style="width:36.1%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Weekend afternoon</span><span class="val"><b>334</b><em>38.6%</em></span></div><div class="track"><i class="fill" style="width:38.6%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Late afternoon</span><span class="val"><b>448</b><em>51.7%</em></span></div><div class="track"><i class="fill" style="width:51.7%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Evening</span><span class="val"><b>529</b><em>61.1%</em></span></div><div class="track"><i class="fill" style="width:61.1%"></i></div></div>
+</div><div class="sub-h">How many days a week each student is free</div><div class="days">
+<div class="day"><div class="day-bar"><i class=" flag" style="height:32.9%"></i></div><div class="day-n">109</div><div class="day-k">1</div></div>
+<div class="day"><div class="day-bar"><i class=" flag" style="height:47.7%"></i></div><div class="day-n">158</div><div class="day-k">2</div></div>
+<div class="day"><div class="day-bar"><i class="" style="height:22.4%"></i></div><div class="day-n">74</div><div class="day-k">3</div></div>
+<div class="day"><div class="day-bar"><i class="" style="height:16.3%"></i></div><div class="day-n">54</div><div class="day-k">4</div></div>
+<div class="day"><div class="day-bar"><i class="" style="height:25.7%"></i></div><div class="day-n">85</div><div class="day-k">5</div></div>
+<div class="day"><div class="day-bar"><i class="" style="height:16.6%"></i></div><div class="day-n">55</div><div class="day-k">6</div></div>
+<div class="day"><div class="day-bar"><i class="" style="height:100.0%"></i></div><div class="day-n">331</div><div class="day-k">7</div></div>
+</div><div class="days-x">days per week the student is free &rarr;</div>
+  <div class="says"><p>Evening is the cohort's one real window at 61%. The lower chart is the finding: it is bimodal. 331 students are free every day of the week, while 267 - nearly a third - are free on two days or fewer. There is no typical student here, there are two groups, and a team that mixes them will struggle to find a slot.</p></div>
+</section>
+<section class="q" id="A3">
+  <div class="eyebrow"><span class="qid">A3</span><span class="meta">multi select &middot; required</span></div>
+  <h3>Which of these will take up your time this year? Tick all that apply.</h3>
+  
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>Each bar is one commitment, and the length is the share of students who ticked it. Students could tick as many as applied, so the bars do <em>not</em> add to 100% - on average each student ticked 1.88.</p></div>
+  <div class="chart">
+<div class="scale-note">Multi-select &middot; mean 1.88 selections per student</div>
+<div class="row"><div class="row-head"><span class="lab">Other</span><span class="val"><b>325</b><em>37.5%</em></span></div><div class="track"><i class="fill" style="width:37.5%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Family responsibilities that need regular time</span><span class="val"><b>288</b><em>33.3%</em></span></div><div class="track"><i class="fill" style="width:33.3%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Nothing regular</span><span class="val"><b>250</b><em>28.9%</em></span></div><div class="track"><i class="fill" style="width:28.9%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Coding, tech or robotics club</span><span class="val"><b>174</b><em>20.1%</em></span></div><div class="track"><i class="fill" style="width:20.1%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">College sports team or regular training</span><span class="val"><b>156</b><em>18.0%</em></span></div><div class="track"><i class="fill" style="width:18.0%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Coaching classes I attend</span><span class="val"><b>115</b><em>13.3%</em></span></div><div class="track"><i class="fill" style="width:13.3%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Part-time work, or tuition I give</span><span class="val"><b>102</b><em>11.8%</em></span></div><div class="track"><i class="fill" style="width:11.8%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Cultural team with rehearsals</span><span class="val"><b>78</b><em>9.0%</em></span></div><div class="track"><i class="fill" style="width:9.0%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">NCC or NSS</span><span class="val"><b>63</b><em>7.3%</em></span></div><div class="track"><i class="fill" style="width:7.3%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">E-cell or startup work</span><span class="val"><b>40</b><em>4.6%</em></span></div><div class="track"><i class="fill" style="width:4.6%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Office bearer or core member of a club</span><span class="val"><b>39</b><em>4.5%</em></span></div><div class="track"><i class="fill" style="width:4.5%"></i></div></div>
+</div>
+  <div class="says"><p>Family responsibilities are the single biggest named commitment at 33%, ahead of every club and sport. The programme's mental model of a busy student is usually clubs and sports; the data says the more common competitor for time is home. Note also that <em>Other</em> tops the list at 37.5%, which means the option list is missing something the cohort actually does.</p></div>
+</section>
+<section class="q" id="A4">
+  <div class="eyebrow"><span class="qid">A4</span><span class="meta">single choice &middot; required</span></div>
+  <h3>Roughly how many hours a week do those take?</h3>
+  
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>Bars are hour bands, kept in the form's order from fewest hours to most rather than sorted by size, so the shape reads as a scale. Length is the share of students in each band.</p></div>
+  <div class="chart">
+<div class="scale-note">Scale &middot; options in form order, not sorted by size</div>
+<div class="row"><div class="row-head"><span class="lab">Under 2</span><span class="val"><b>144</b><em>16.6%</em></span></div><div class="track"><i class="fill" style="width:16.6%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">2 to 5</span><span class="val"><b>353</b><em>40.8%</em></span></div><div class="track"><i class="fill" style="width:40.8%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">5 to 10</span><span class="val"><b>218</b><em>25.2%</em></span></div><div class="track"><i class="fill" style="width:25.2%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">More than 10</span><span class="val"><b>151</b><em>17.4%</em></span></div><div class="track"><i class="fill" style="width:17.4%"></i></div></div>
+</div>
+  <div class="says"><p>Two-thirds sit at five hours a week or less on other commitments. But 151 students - 17% - report more than ten hours already committed elsewhere, before SIP's seven-hour minimum is added. That group is the one to watch.</p></div>
+</section>
+<section class="q" id="A5">
+  <div class="eyebrow"><span class="qid">A5</span><span class="meta">multi select &middot; required</span></div>
+  <h3>Languages you can comfortably discuss technical work in, not just speak socially. Tick all that apply.</h3>
+  
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>Each bar is a language, and the length is the share of students who can discuss <em>technical</em> work in it. Multiple selections were allowed, averaging 2.72 languages each.</p></div>
+  <div class="chart">
+<div class="scale-note">Multi-select &middot; mean 2.72 languages per student</div>
+<div class="row"><div class="row-head"><span class="lab">English</span><span class="val"><b>809</b><em>93.4%</em></span></div><div class="track"><i class="fill" style="width:93.4%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Kannada</span><span class="val"><b>672</b><em>77.6%</em></span></div><div class="track"><i class="fill" style="width:77.6%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Hindi</span><span class="val"><b>515</b><em>59.5%</em></span></div><div class="track"><i class="fill" style="width:59.5%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Telugu</span><span class="val"><b>187</b><em>21.6%</em></span></div><div class="track"><i class="fill" style="width:21.6%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Tamil</span><span class="val"><b>92</b><em>10.6%</em></span></div><div class="track"><i class="fill" style="width:10.6%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Other</span><span class="val"><b>40</b><em>4.6%</em></span></div><div class="track"><i class="fill" style="width:4.6%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Marathi</span><span class="val"><b>26</b><em>3.0%</em></span></div><div class="track"><i class="fill" style="width:3.0%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Malayalam</span><span class="val"><b>10</b><em>1.2%</em></span></div><div class="track"><i class="fill" style="width:1.2%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Bengali</span><span class="val"><b>6</b><em>0.7%</em></span></div><div class="track"><i class="fill" style="width:0.7%"></i></div></div>
+</div>
+  <div class="says"><p>English at 93% and Kannada at 78% means almost any pair of students shares at least one working language, so language is not the constraint on team formation it might have been. The long tail matters less than it appears - a student with only Bengali or Malayalam would be isolated, but there are very few of them and nearly all also have English.</p></div>
+</section>
+<section class="q" id="A6">
+  <div class="eyebrow"><span class="qid">A6</span><span class="meta">single choice &middot; required</span></div>
+  <h3>These projects often need visits to communities, schools, hospitals, factories, villages or government offices, sometimes on weekends. What can you realistically commit to?</h3>
+  <p class="helper">All four are fine. Every team needs people who go out and people who hold things together on campus.</p>
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>Bars run from least willing to travel up to most, with <em>Not sure</em> held out at the end because it is not a point on that scale. Length is the share of students.</p></div>
+  <div class="chart">
+<div class="scale-note">Scale &middot; options in form order, <em>Not sure</em> held out</div>
+<div class="row"><div class="row-head"><span class="lab">Rarely. I would prefer to contribute mostly from campus</span><span class="val"><b>175</b><em>20.2%</em></span></div><div class="track"><i class="fill" style="width:20.2%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">I can travel occasionally, about once a month, within the city</span><span class="val"><b>323</b><em>37.3%</em></span></div><div class="track"><i class="fill" style="width:37.3%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">I can travel regularly, including outside the city if needed</span><span class="val"><b>182</b><em>21.0%</em></span></div><div class="track"><i class="fill" style="width:21.0%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">I am not sure yet</span><span class="val"><b>186</b><em>21.5%</em></span></div><div class="track"><i class="fill muted" style="width:21.5%"></i></div></div>
+</div>
+  <div class="says"><p>Only 21% will travel regularly, and another 21% genuinely do not know yet. Since these projects depend on field visits, roughly one team member in five can carry that load - which works only if teams are formed knowing who those people are.</p></div>
+</section>
+<h2 class="sec" id="B"><span class="sec-k">Section B</span>What you want to work on<em>&ldquo;Teams that do not care about their problem quietly stop working around month four.&rdquo;</em></h2>
+<section class="q" id="B1">
+  <div class="eyebrow"><span class="qid">B1</span><span class="meta">ranking &middot; required</span></div>
+  <h3>Rank your top three domains.</h3>
+  <p class="helper">To be replaced with the live ASIP problem-pool domains before launch.</p>
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>Each bar is one problem domain, and the length is the share of students who put it somewhere in their top three. Every student ranked exactly three, so the bars total 300%. The small list underneath counts first-choice votes only.</p></div>
+  <div class="chart">
+<div class="scale-note">Share of students placing each domain anywhere in their top three</div>
+<div class="row"><div class="row-head"><span class="lab">Education</span><span class="val"><b>535</b><em>61.8%</em></span></div><div class="track"><i class="fill" style="width:61.8%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Agriculture</span><span class="val"><b>326</b><em>37.6%</em></span></div><div class="track"><i class="fill" style="width:37.6%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Public health</span><span class="val"><b>231</b><em>26.7%</em></span></div><div class="track"><i class="fill" style="width:26.7%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Mental health</span><span class="val"><b>208</b><em>24.0%</em></span></div><div class="track"><i class="fill" style="width:24.0%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Women&#x27;s safety</span><span class="val"><b>200</b><em>23.1%</em></span></div><div class="track"><i class="fill" style="width:23.1%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Waste</span><span class="val"><b>178</b><em>20.6%</em></span></div><div class="track"><i class="fill" style="width:20.6%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Food security</span><span class="val"><b>197</b><em>22.7%</em></span></div><div class="track"><i class="fill" style="width:22.7%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Digital literacy</span><span class="val"><b>157</b><em>18.1%</em></span></div><div class="track"><i class="fill" style="width:18.1%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Urban mobility</span><span class="val"><b>147</b><em>17.0%</em></span></div><div class="track"><i class="fill" style="width:17.0%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Water</span><span class="val"><b>135</b><em>15.6%</em></span></div><div class="track"><i class="fill" style="width:15.6%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Energy &amp; climate</span><span class="val"><b>118</b><em>13.6%</em></span></div><div class="track"><i class="fill" style="width:13.6%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Civic governance</span><span class="val"><b>71</b><em>8.2%</em></span></div><div class="track"><i class="fill" style="width:8.2%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">MSMEs</span><span class="val"><b>57</b><em>6.6%</em></span></div><div class="track"><i class="fill" style="width:6.6%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Accessibility</span><span class="val"><b>38</b><em>4.4%</em></span></div><div class="track"><i class="fill" style="width:4.4%"></i></div></div>
+</div><div class="mini"><div class="mini-h">First-choice votes</div><div class="mini-rows"><div class="mini-r"><span>Education</span><b>393</b></div><div class="mini-r"><span>Agriculture</span><b>101</b></div><div class="mini-r"><span>Public health</span><b>60</b></div><div class="mini-r"><span>Mental health</span><b>51</b></div><div class="mini-r"><span>Women&#x27;s safety</span><b>54</b></div><div class="mini-r"><span>Waste</span><b>37</b></div></div></div>
+  <div class="says"><p>Education is picked by 62% of the cohort and is the outright first choice of 393 students - more than the next three domains combined. Against a fixed problem pool this is a supply problem, not a preference finding: there will not be enough education projects to go round, and accessibility, MSMEs and civic governance may struggle to attract anyone at all.</p></div>
+</section>
+<section class="q" id="B2">
+  <div class="eyebrow"><span class="qid">B2</span><span class="meta">free text &middot; optional</span></div>
+  <h3>Is there a problem you have personally seen, or been affected by, that you would want to work on? Three or four lines is plenty.</h3>
+  <p class="helper">Write it in your own words rather than something that sounds good. It is fine to leave this blank.</p>
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>One bar showing what all 866 students did with an optional free-text question, split into four groups: left blank entirely, wrote a dismissal like &ldquo;nothing&rdquo;, wrote junk, or wrote a real answer.</p></div>
+  <div class="comp">
+ <div class="comp-bar">
+  <i class="c-grey" style="width:73.3%"><span>635 left blank</span></i>
+  <i class="c-mute" style="width:9.1%"><span>79</span></i>
+  <i class="c-flag" style="width:1.0%"></i>
+  <i class="c-acc" style="width:16.5%"><span>143 substantive</span></i>
+ </div>
+ <div class="comp-key"><span><i class="k-grey"></i>left blank 635</span><span><i class="k-mute"></i>&ldquo;nothing&rdquo; 79</span><span><i class="k-flag"></i>junk 9</span><span><i class="k-acc"></i>substantive 143</span></div></div>
+  <div class="says"><p>This was the only optional question on the form, and 635 students skipped it. Of the 231 who wrote something, 143 gave a substantive answer - a median of 18 words. Those 143 answers are the richest qualitative material the form produced and are worth reading individually rather than counting.</p></div>
+</section>
+<section class="q" id="B3">
+  <div class="eyebrow"><span class="qid">B3</span><span class="meta">ranking &middot; required</span></div>
+  <h3>Rank all five by how much you would enjoy doing them. Not how good you are, how much you would enjoy it.</h3>
+  
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>Every student put all five activities in order. The bars show how often each was ranked <em>first</em>; the list underneath gives the average position, where a lower number means more enjoyed.</p></div>
+  <div class="chart">
+<div class="scale-note">Share of students ranking each activity first</div>
+<div class="row"><div class="row-head"><span class="lab">Building and prototyping</span><span class="val"><b>314</b><em>36.3%</em></span></div><div class="track"><i class="fill" style="width:36.3%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Data and analysis</span><span class="val"><b>136</b><em>15.7%</em></span></div><div class="track"><i class="fill" style="width:15.7%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Talking to people</span><span class="val"><b>195</b><em>22.5%</em></span></div><div class="track"><i class="fill" style="width:22.5%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Coordinating</span><span class="val"><b>147</b><em>17.0%</em></span></div><div class="track"><i class="fill" style="width:17.0%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Communicating</span><span class="val"><b>74</b><em>8.5%</em></span></div><div class="track"><i class="fill" style="width:8.5%"></i></div></div>
+</div><div class="mini"><div class="mini-h">Average rank across all 866 students (1 = most enjoyed)</div><div class="mini-rows"><div class="mini-r"><span>Building and prototyping</span><b>2.7</b></div><div class="mini-r"><span>Data and analysis</span><b>2.88</b></div><div class="mini-r"><span>Talking to people</span><b>2.93</b></div><div class="mini-r"><span>Coordinating</span><b>3.14</b></div><div class="mini-r"><span>Communicating</span><b>3.36</b></div></div></div>
+  <div class="says"><p>Building leads on both measures, and communicating comes last on both - only 74 students of 866 put writing, video and presenting at the top. Since every project has to be presented, most teams will be doing that work with nobody who wanted it. The averages are also tightly bunched between 2.70 and 3.36, which means preferences are mild rather than strong.</p></div>
+</section>
+<section class="q" id="B4">
+  <div class="eyebrow"><span class="qid">B4</span><span class="meta">free text &middot; required</span></div>
+  <h3>Describe one thing you have built, organised, filmed, written, repaired, taught, sold or run in the last two years. It does not have to be technical or impressive. School counts. Two or three lines.</h3>
+  <p class="helper">If nothing comes to mind, write &quot;nothing yet&quot;. That is an honest answer and it costs you nothing.</p>
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>One bar covering all 866 students, split by what they wrote when asked to name one thing they had made, organised or run. The form explicitly invited &ldquo;nothing yet&rdquo; as an honest answer, so that group is shown separately from junk.</p></div>
+  <div class="comp">
+ <div class="comp-bar">
+  <i class="c-mute" style="width:57.4%"><span>497 &ldquo;nothing yet&rdquo;</span></i>
+  <i class="c-flag" style="width:1.6%"></i>
+  <i class="c-acc" style="width:41.0%"><span>355 substantive</span></i>
+ </div>
+ <div class="comp-key"><span><i class="k-mute"></i>&ldquo;nothing yet&rdquo; 497 (57%)</span><span><i class="k-flag"></i>junk 14</span><span><i class="k-acc"></i>substantive 355 (41%)</span></div></div>
+  <div class="says"><p>This is the most striking single number in the report. <b>497 students - 57% - could not name one thing</b> they had built, organised, filmed, written, repaired, taught, sold or run in two years. School counted. The form told them the answer cost nothing, and they took it. Only 14 responses were actual junk, so this is a real finding about the cohort, not a data-quality problem.</p></div>
+</section>
+<section class="q" id="B5">
+  <div class="eyebrow"><span class="qid">B5</span><span class="meta">multi select &middot; required</span></div>
+  <h3>Why are you doing this project? Pick the two closest to the truth.</h3>
+  <p class="helper">All five are legitimate. We are not judging any of them.</p>
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>Each bar is one motivation and shows the share of students who picked it. Every student picked exactly two, so the five bars total 200% - read them against each other, not as a breakdown.</p></div>
+  <div class="chart">
+<div class="row"><div class="row-head"><span class="lab">I want something substantial on my resume for placements</span><span class="val"><b>498</b><em>57.5%</em></span></div><div class="track"><i class="fill" style="width:57.5%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">I want to learn things I cannot learn in class</span><span class="val"><b>477</b><em>55.1%</em></span></div><div class="track"><i class="fill" style="width:55.1%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">I want to actually change something on the ground</span><span class="val"><b>301</b><em>34.8%</em></span></div><div class="track"><i class="fill" style="width:34.8%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">I am curious about the problem area</span><span class="val"><b>247</b><em>28.5%</em></span></div><div class="track"><i class="fill" style="width:28.5%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">It is a requirement and I would like to get through it without much friction</span><span class="val"><b>209</b><em>24.1%</em></span></div><div class="track"><i class="fill" style="width:24.1%"></i></div></div>
+</div><div class="mini"><div class="mini-h">The pairs students actually chose</div><div class="mini-rows"><div class="mini-r"><span>I want something substantial on my resume for placements + I want to learn things I cannot learn in class</span><b>247</b></div><div class="mini-r"><span>I want something substantial on my resume for placements + I want to actually change something on the ground</span><b>99</b></div><div class="mini-r"><span>I want something substantial on my resume for placements + It is a requirement and I would like to get through it without much friction</span><b>98</b></div><div class="mini-r"><span>I want to actually change something on the ground + I want to learn things I cannot learn in class</span><b>91</b></div><div class="mini-r"><span>I am curious about the problem area + I want to learn things I cannot learn in class</span><b>89</b></div><div class="mini-r"><span>I am curious about the problem area + I want to actually change something on the ground</span><b>77</b></div></div></div>
+  <div class="says"><p>Resume and learning dominate, and the honest option - 'it is a requirement, I want to get through it' - was still chosen by 24%. The form said all five were legitimate and students appear to have believed it. That 209 people admitted to compliance rather than passion is a sign the instrument is working.</p></div>
+</section>
+<section class="q" id="B6">
+  <div class="eyebrow"><span class="qid">B6</span><span class="meta">single choice &middot; required</span></div>
+  <h3>The minimum is seven hours a week. In a normal week, how much do you realistically expect to put in?</h3>
+  
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>Bars run from the smallest weekly commitment up to the largest, with <em>Do not know yet</em> held out at the end. Length is the share of students.</p></div>
+  <div class="chart">
+<div class="scale-note">Scale &middot; options in form order, <em>Do not know yet</em> held out</div>
+<div class="row"><div class="row-head"><span class="lab">Around 5 to 7. I will meet the minimum</span><span class="val"><b>404</b><em>46.7%</em></span></div><div class="track"><i class="fill" style="width:46.7%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">About 7 to 9</span><span class="val"><b>163</b><em>18.8%</em></span></div><div class="track"><i class="fill" style="width:18.8%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">10 or more when it is interesting, less when it is not</span><span class="val"><b>83</b><em>9.6%</em></span></div><div class="track"><i class="fill" style="width:9.6%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">More than 10, consistently</span><span class="val"><b>3</b><em>0.3%</em></span></div><div class="track"><i class="fill" style="width:0.4%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">I do not know yet</span><span class="val"><b>213</b><em>24.6%</em></span></div><div class="track"><i class="fill muted" style="width:24.6%"></i></div></div>
+</div>
+  <div class="says"><p>This is the most uncomfortable chart in the report. The stated minimum is seven hours; 47% picked the band that tops out <em>at</em> seven, and only 3 students in 866 committed to more than ten consistently. Add the 25% who do not know yet, and roughly seven in ten students have not committed above the floor.</p></div>
+</section>
+<h2 class="sec" id="C"><span class="sec-k">Section C</span>How you work<em>&ldquo;Pick what you would actually do, not what sounds best. If two options both feel true, pick the one you would do on a bad week.&rdquo;</em></h2>
+<section class="q" id="C1">
+  <div class="eyebrow"><span class="qid">C1</span><span class="meta">single choice &middot; required</span></div>
+  <h3>A submission is due in three days. One teammate has not sent their part and is not replying. What are you most likely to actually do?</h3>
+  
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>Each bar is one response to a teammate who has gone silent three days before a deadline. Length is the share of students choosing it; each student picked one, so the bars total 100%.</p></div>
+  <div class="chart">
+<div class="row"><div class="row-head"><span class="lab">Call them directly and ask what is going on</span><span class="val"><b>301</b><em>34.8%</em></span></div><div class="track"><i class="fill" style="width:34.8%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Quietly start redoing their part myself so the deadline is safe</span><span class="val"><b>256</b><em>29.6%</em></span></div><div class="track"><i class="fill" style="width:29.6%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Message the group and ask if someone can check on them</span><span class="val"><b>194</b><em>22.4%</em></span></div><div class="track"><i class="fill" style="width:22.4%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Raise it with the mentor</span><span class="val"><b>80</b><em>9.2%</em></span></div><div class="track"><i class="fill" style="width:9.2%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Wait. People usually come through at the last minute</span><span class="val"><b>35</b><em>4.0%</em></span></div><div class="track"><i class="fill" style="width:4.0%"></i></div></div>
+</div>
+  <div class="says"><p>The most common answer is the direct one - call them. But 30% would quietly redo the missing work themselves, which protects the deadline and hides the problem from everyone who could fix it. That is the answer most likely to produce a team that looks fine until it fails.</p></div>
+</section>
+<section class="q" id="C2">
+  <div class="eyebrow"><span class="qid">C2</span><span class="meta">single choice &middot; required</span></div>
+  <h3>Your team gets a vague problem statement with no obvious starting point. In week one, you would rather:</h3>
+  
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>Each bar is one way of starting an unclear project in week one, with the length showing the share who chose it.</p></div>
+  <div class="chart">
+<div class="row"><div class="row-head"><span class="lab">Read and talk to people first, and decide once we understand it properly</span><span class="val"><b>642</b><em>74.1%</em></span></div><div class="track"><i class="fill" style="width:74.1%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Build a rough version of something and see what breaks</span><span class="val"><b>97</b><em>11.2%</em></span></div><div class="track"><i class="fill" style="width:11.2%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Push the group to lock a specific plan quickly. We can adjust later</span><span class="val"><b>87</b><em>10.0%</em></span></div><div class="track"><i class="fill" style="width:10.0%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Wait for someone to propose a direction, then improve on it</span><span class="val"><b>40</b><em>4.6%</em></span></div><div class="track"><i class="fill" style="width:4.6%"></i></div></div>
+</div>
+  <div class="says"><p>Three-quarters would research before deciding - an unusually lopsided result for a question with no right answer. It is a good instinct, but a team of five researchers with nobody pushing to commit is exactly how month one becomes month three with no decision made.</p></div>
+</section>
+<section class="q" id="C3">
+  <div class="eyebrow"><span class="qid">C3</span><span class="meta">single choice &middot; required</span></div>
+  <h3>Now the other way round. You have had a rough two weeks and have not done your part. The team is waiting on you. What would you most likely actually do?</h3>
+  
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>The mirror image of C1: what the student would do when <em>they</em> are the one who has fallen behind. Length is the share choosing each response.</p></div>
+  <div class="chart">
+<div class="row"><div class="row-head"><span class="lab">Tell the group as soon as I know I will be late</span><span class="val"><b>543</b><em>62.7%</em></span></div><div class="track"><i class="fill" style="width:62.7%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Say nothing and try to quietly catch up before anyone notices</span><span class="val"><b>173</b><em>20.0%</em></span></div><div class="track"><i class="fill" style="width:20.0%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Tell one person I am close to and ask them to cover for me</span><span class="val"><b>122</b><em>14.1%</em></span></div><div class="track"><i class="fill" style="width:14.1%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Wait until someone asks, then explain</span><span class="val"><b>28</b><em>3.2%</em></span></div><div class="track"><i class="fill" style="width:3.2%"></i></div></div>
+</div>
+  <div class="says"><p>63% would tell the group early, which is the answer that keeps a team functional. But one in five would say nothing and try to catch up unnoticed, and a further 14% would ask one person to cover. A third of the cohort, then, would hide being late rather than flag it.</p></div>
+</section>
+<section class="q" id="C4">
+  <div class="eyebrow"><span class="qid">C4</span><span class="meta">single choice &middot; required</span></div>
+  <h3>It is month five. The project has stalled and the work has become boring.</h3>
+  
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>Each bar is a response to the project stalling and turning boring at month five. Length is the share of students.</p></div>
+  <div class="chart">
+<div class="row"><div class="row-head"><span class="lab">Push the team to change to something more interesting</span><span class="val"><b>346</b><em>40.0%</em></span></div><div class="track"><i class="fill" style="width:40.0%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Keep grinding through the plan we agreed on</span><span class="val"><b>240</b><em>27.7%</em></span></div><div class="track"><i class="fill" style="width:27.7%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Get everyone in a room and reset the plan</span><span class="val"><b>167</b><em>19.3%</em></span></div><div class="track"><i class="fill" style="width:19.3%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Focus on the parts I find interesting and leave the rest to others</span><span class="val"><b>73</b><em>8.4%</em></span></div><div class="track"><i class="fill" style="width:8.4%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Quietly cut back my time until things pick up</span><span class="val"><b>40</b><em>4.6%</em></span></div><div class="track"><i class="fill" style="width:4.6%"></i></div></div>
+</div>
+  <div class="says"><p>40% would push to change to something more interesting - the largest group, and a direct warning about month-four attrition. Only 19% would call the team together and reset the plan. The instinct is to switch problems rather than repair the work, which is worth knowing before problem statements are locked.</p></div>
+</section>
+<section class="q" id="C5">
+  <div class="eyebrow"><span class="qid">C5</span><span class="meta">single choice &middot; required</span></div>
+  <h3>Think about how you have actually handled assignments so far, not how you would like to work.</h3>
+  
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>Bars run from finishing early through to last-minute, with <em>It varies</em> held out at the end since it is not a point on the scale. Length is the share of students.</p></div>
+  <div class="chart">
+<div class="scale-note">Scale &middot; options in form order, not sorted by size</div>
+<div class="row"><div class="row-head"><span class="lab">I finish well before the deadline. I do not like the pressure</span><span class="val"><b>400</b><em>46.2%</em></span></div><div class="track"><i class="fill" style="width:46.2%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Steadily, a bit at a time</span><span class="val"><b>155</b><em>17.9%</em></span></div><div class="track"><i class="fill" style="width:17.9%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Most of it in the last day or two, and it usually turns out fine</span><span class="val"><b>149</b><em>17.2%</em></span></div><div class="track"><i class="fill" style="width:17.2%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">It varies a lot depending on the subject</span><span class="val"><b>162</b><em>18.7%</em></span></div><div class="track"><i class="fill muted" style="width:18.7%"></i></div></div>
+</div>
+  <div class="says"><p>46% say they finish well before the deadline. Hold that number - C8 asks the same thing from a different angle and gets a very different answer.</p></div>
+</section>
+<section class="q" id="C6">
+  <div class="eyebrow"><span class="qid">C6</span><span class="meta">single choice &middot; required</span></div>
+  <h3>In every team, someone ends up tracking deadlines, scheduling meetings and chasing people. Would you be willing to be that person?</h3>
+  
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>Bars run from least willing to be the team's organiser up to most willing. Length is the share of students.</p></div>
+  <div class="chart">
+<div class="scale-note">Scale &middot; options in form order, not sorted by size</div>
+<div class="row"><div class="row-head"><span class="lab">I would be bad at it and would rather not</span><span class="val"><b>78</b><em>9.0%</em></span></div><div class="track"><i class="fill" style="width:9.0%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">I would rather not, but I would cooperate fully with whoever does</span><span class="val"><b>361</b><em>41.7%</em></span></div><div class="track"><i class="fill" style="width:41.7%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Yes, if nobody else steps up</span><span class="val"><b>208</b><em>24.0%</em></span></div><div class="track"><i class="fill" style="width:24.0%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Yes, I would actually enjoy it</span><span class="val"><b>219</b><em>25.3%</em></span></div><div class="track"><i class="fill" style="width:25.3%"></i></div></div>
+</div>
+  <div class="says"><p>Half the cohort is willing to coordinate if needed or would actively enjoy it, so there are enough organisers to go round in principle. The largest single group, at 42%, would rather not but would cooperate - a workable answer, and far better for a team than someone who takes the role reluctantly and then drops it.</p></div>
+</section>
+<section class="q" id="C7">
+  <div class="eyebrow"><span class="qid">C7</span><span class="meta">single choice &middot; required</span></div>
+  <h3>A teammate&#x27;s work is not good enough. You would most likely:</h3>
+  
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>Each bar is one way of handling a teammate whose work is not good enough. Length is the share of students.</p></div>
+  <div class="chart">
+<div class="row"><div class="row-head"><span class="lab">Raise it with the whole group so it is not personal</span><span class="val"><b>319</b><em>36.8%</em></span></div><div class="track"><i class="fill" style="width:36.8%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Tell them directly</span><span class="val"><b>254</b><em>29.3%</em></span></div><div class="track"><i class="fill" style="width:29.3%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Hint at it and hope they take it</span><span class="val"><b>163</b><em>18.8%</em></span></div><div class="track"><i class="fill" style="width:18.8%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Mention it to whoever is coordinating, or the mentor</span><span class="val"><b>90</b><em>10.4%</em></span></div><div class="track"><i class="fill" style="width:10.4%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Fix it myself and say nothing</span><span class="val"><b>40</b><em>4.6%</em></span></div><div class="track"><i class="fill" style="width:4.6%"></i></div></div>
+</div>
+  <div class="says"><p>Two-thirds would say something, either to the group or to the person. The concerning slice is smaller here than in C1: only 4.6% would silently fix it. Students are more willing to confront weak work than to chase absent work.</p></div>
+</section>
+<section class="q" id="C8">
+  <div class="eyebrow"><span class="qid">C8</span><span class="meta">single choice &middot; required</span></div>
+  <h3>Roughly what fraction of your assignments last year did you submit on the deadline day itself?</h3>
+  
+  <div class="shows"><span class="shows-k">What this chart shows</span><p>Bars run from submitting almost nothing on deadline day up to submitting almost everything then, kept in scale order. Length is the share of students.</p></div>
+  <div class="chart">
+<div class="scale-note">Scale &middot; options in form order, not sorted by size</div>
+<div class="row"><div class="row-head"><span class="lab">Under a quarter</span><span class="val"><b>229</b><em>26.4%</em></span></div><div class="track"><i class="fill" style="width:26.4%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">About half</span><span class="val"><b>184</b><em>21.2%</em></span></div><div class="track"><i class="fill" style="width:21.2%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Most of them</span><span class="val"><b>202</b><em>23.3%</em></span></div><div class="track"><i class="fill" style="width:23.3%"></i></div></div>
+<div class="row"><div class="row-head"><span class="lab">Almost all of them</span><span class="val"><b>251</b><em>29.0%</em></span></div><div class="track"><i class="fill" style="width:29.0%"></i></div></div>
+</div>
+  <div class="says"><p>Here is the contradiction with C5. There, 46% said they finish well before the deadline. Here, 29% say almost <em>all</em> their assignments last year went in on the deadline day itself, and another 23% say most did. Both cannot be true of the same cohort. C8 asks about last year's record rather than self-image, so it is the more reliable of the two.</p></div>
+</section><footer>
+<p><b>Source.</b> All 866 rows of <code>public.sip_onboarding_submissions</code>, form <code>sip-student-onboarding</code> v1, joined to <code>users</code> and <code>student_profiles</code>. Figures were computed in <code>sip_analysis/</code> and cross-checked against SQL run directly on the database.</p>
+<p><b>Two caveats.</b> The domain names in B1 are title-cased from their stored values because the source label list was not available, so wording may differ from what students saw &mdash; the counts are exact. And 118 students (13.6%) carry a low-effort flag from the quality checks; nothing has been excluded from the figures above, so every chart includes them.</p>
+</footer>
+</div>
